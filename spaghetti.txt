@@ -7,33 +7,39 @@ np.random.seed(0)
 
 # Generate random data
 data = np.random.randn(100, 2)
-a, b = data[:, 0], data[:, 1]
+variable_1, variable_2 = data[:, 0], data[:, 1]
 
-# Create subplots
+# Create subplots with better spacing
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+fig.suptitle('Exploratory Data Analysis', fontsize=16)
 
 # Subplot 1: Mean and Median
-axes[0, 0].bar(['Mean', 'Median'], [np.mean(a), np.median(a)], color='blue', alpha=0.7, label='Variable 1')
-axes[0, 0].bar(['Mean', 'Median'], [np.mean(b), np.median(b)], color='green', alpha=0.7, label='Variable 2')
+axes[0, 0].bar(['Mean', 'Median'], [np.mean(variable_1), np.median(variable_1)], color='skyblue', alpha=0.7, label='Variable 1')
+axes[0, 0].bar(['Mean', 'Median'], [np.mean(variable_2), np.median(variable_2)], color='lightgreen', alpha=0.7, label='Variable 2')
 axes[0, 0].legend()
 axes[0, 0].set_title('Descriptive Statistics: Mean and Median')
 
 # Subplot 2: Correlation Heatmap
-sns.heatmap(np.corrcoef(data.T), annot=True, ax=axes[0, 1], cmap='coolwarm')
+corr_matrix = np.corrcoef(data.T)
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', ax=axes[0, 1])
 axes[0, 1].set_title('Correlation Analysis')
 
 # Subplot 3: Histograms
-axes[1, 0].hist(a, bins=15, color='blue', alpha=0.7, label='Variable 1')
-axes[1, 0].hist(b, bins=15, color='green', alpha=0.7, label='Variable 2')
+axes[1, 0].hist(variable_1, bins=15, color='skyblue', alpha=0.7, label='Variable 1')
+axes[1, 0].hist(variable_2, bins=15, color='lightgreen', alpha=0.7, label='Variable 2')
 axes[1, 0].legend()
 axes[1, 0].set_title('Histogram of Variables')
 
 # Subplot 4: Scatter Plot
-axes[1, 1].scatter(a, b, alpha=0.7)
+scatter = axes[1, 1].scatter(variable_1, variable_2, alpha=0.7, c='purple', edgecolors='w')
 axes[1, 1].set_xlabel('Variable 1')
 axes[1, 1].set_ylabel('Variable 2')
 axes[1, 1].set_title('Scatter Plot of Variable 1 vs Variable 2')
 
+# Add colorbar for the scatter plot
+colorbar = plt.colorbar(scatter, ax=axes[1, 1])
+colorbar.set_label('Density')
+
 # Adjust layout and show plot
-plt.tight_layout()
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])  # Add space at the top for the title
 plt.show()
